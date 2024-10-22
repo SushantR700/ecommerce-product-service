@@ -4,6 +4,7 @@ import com.ecommerce.Ecommerce.entity.Product;
 import com.ecommerce.Ecommerce.exception.ProductNotFoundException;
 import com.ecommerce.Ecommerce.repo.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -62,10 +64,14 @@ public class ProductService {
         return productPage;
     }
 
+
+    @Cacheable(cacheNames = "productById",key = "#id")
     public Product findProductById(int id){
+        System.out.println("Fetching from db");
         return productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("Product with id " + id + " not found"));
     }
 
+    @Cacheable(cacheNames = "productByCategory", key = "#category")
     public List<Product> findProductByCategory(String category){
         List<Product> productsByCategory = productRepository.findByCategory(category);
         if (productsByCategory.isEmpty()) {
