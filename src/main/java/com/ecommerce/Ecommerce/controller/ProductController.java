@@ -6,6 +6,7 @@ import com.ecommerce.Ecommerce.service.ProductService;
 import com.ecommerce.Ecommerce.utils.ApiResponse;
 import com.ecommerce.Ecommerce.utils.AppConstants;
 import com.ecommerce.Ecommerce.utils.ProductPaginationResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
+@Tag(name="Product Service")
 @RequiredArgsConstructor
 public class ProductController {
 
